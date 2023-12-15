@@ -1,0 +1,120 @@
+<!-- templates/index.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <title>Оценка результативности сотрудников</title>
+    <style>
+        body {
+            background-color: black;
+            color: white;
+        }
+
+        #dropArea {
+            border: 2px dashed #ccc;
+            border-radius: 8px;
+            padding: 20px;
+            text-align: center;
+            color: #ccc;
+            cursor: pointer;
+        }
+        #dropArea.dragover {
+            background-color: #333;
+        }
+
+    .btn-primary {
+        background-color: black;
+        color: white;
+        border: 2px solid white;
+    }
+
+    .navbar {
+        background-color: black !important;
+        border: 2px solid white;
+    }
+
+    .navbar-light .navbar-brand, .navbar-light .navbar-nav .nav-link {
+        color: white !important;
+    }
+
+    .navbar-light .navbar-nav .nav-link:hover {
+        border-bottom: 2px solid white;
+    }
+
+    navbar-toggler-icon {
+      background-color: #ffffff;
+    }
+
+    #content {
+      margin: 20px;
+    }
+
+    .dragon-logo {
+      width: 100px;
+      height: auto;
+    }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="https://vk.com/sav.alex9" target="_blank">
+          <img src="{{ url_for('static', filename='dragon_logo.png') }}" alt="Dragon Logo" class="dragon-logo">
+        </a>
+        <a class="navbar-brand" href="http://localhost:5000/">Оценка результативности сотрудников</a>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+                <li class="nav-item active">
+                    <a class="nav-link" href="#">Расчет результативности</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('download_example') }}">Пример документа для расчета результативности</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('download_example_test_generating_document') }}">Пример теста для формирования документа</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('model_metrics') }}">Показатели модели</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container mt-5">
+        <h2>Расчет результативности сотрудников</h2>
+        <form action="{{ url_for('calculate') }}" method="post" enctype="multipart/form-data">
+            <div id="dropArea" class="form-group">
+                <label for="fileInput">Выберите или перетащите документ для расчета результативности, оформленный, как в примере и в формате .csv</label>
+                <input type="file" class="form-control-file" id="fileInput" name="file" accept=".csv" required>
+            </div>
+            <button type="submit" class="btn btn-primary">Рассчитать результативность</button>
+        </form>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <script>
+        // JavaScript для обработки перетаскивания файлов
+        var dropArea = document.getElementById('dropArea');
+
+        dropArea.addEventListener('dragover', function(e) {
+            e.preventDefault();
+            dropArea.classList.add('dragover');
+        });
+
+        dropArea.addEventListener('dragleave', function() {
+            dropArea.classList.remove('dragover');
+        });
+
+        dropArea.addEventListener('drop', function(e) {
+            e.preventDefault();
+            dropArea.classList.remove('dragover');
+            var fileInput = document.getElementById('fileInput');
+            fileInput.files = e.dataTransfer.files;
+        });
+    </script>
+</body>
+</html>
