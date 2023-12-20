@@ -19,7 +19,7 @@ y_train = df_train["actual_productivity"]
 # Выделяем признаки для обучения модели
 X_train = df_train.drop(["actual_productivity", "name"], axis=1)
 
-# Обучаем модель XGBoost и расчет времи обучения модели
+# Обучаем модель XGBoost и расчет времени обучения модели
 start_time_train = time.time()
 model = xgb.XGBRegressor()
 model.fit(X_train, y_train)
