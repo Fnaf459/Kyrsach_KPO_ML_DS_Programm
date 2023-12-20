@@ -8,7 +8,7 @@ import time
 app = Flask(__name__)
 
 # Загружаем обучающий датасет
-df_train = pd.read_csv("train_dataset.csv")
+df_train = pd.read_csv("D:/PythonProject/Kyrsach_Savenkov_KPO/train_dataset.csv")
 
 # Заполняем пропущенные значения в столбце "wip" средними значениями
 df_train["wip"] = df_train["wip"].fillna(df_train["wip"].mean())
@@ -19,12 +19,9 @@ y_train = df_train["actual_productivity"]
 # Выделяем признаки для обучения модели
 X_train = df_train.drop(["actual_productivity", "name"], axis=1)
 
-# Обучаем модель XGBoost
-model = xgb.XGBRegressor()
-model.fit(X_train, y_train)
-
-# Время обучения модели
+# Обучаем модель XGBoost и расчет времи обучения модели
 start_time_train = time.time()
+model = xgb.XGBRegressor()
 model.fit(X_train, y_train)
 end_time_train = time.time()
 
